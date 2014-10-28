@@ -5,7 +5,7 @@ namespace ExPage;
 class ImageFactory
 {
     
-    public function __construct($page, $cookie, $save, $header = array(), $pack = "")
+    public function __construct($page, $cookie, $save, $header = array(), $pack = "", $deleteAfterPack = false)
     {
         \phpQuery::newDocument($page);
         $total = pq(".ptb td")->text();
@@ -45,15 +45,27 @@ class ImageFactory
 
                 $content = Curl::http("get", $url, array(), false, $cookie, $header);
                 $ext = $this->getExtension($content);
-                $filename = "{$save}/{$dataId}-" . sprintf("%03d", $o) . ".{$ext}";
+                $endFilename = "{$dataId}-" . sprintf("%03d", $o) . ".{$ext}";
+                $filename = "{$save}/{$endFilename}";
                 $o ++;
                 file_put_contents($filename, $content);
                 
                 if (!empty($pack)) {
                     $zip = new \ZipArchive();
-                    $zip->open("{$pack}/{$dataId}.zip", ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
-                    $zip->addFile($filename, "{$dataId}.{$ext}");
-                    $zip->close();
+                    while (true) {
+                        if ($zip->open("{$pack}/{$dataId}.zip", \ZipArchive::CREATE)) {
+                            $zip->addFile($filename, $endFilename);
+                            $zip->close();
+
+                            if ($deleteAfterPack) {
+                                unlink(realpath($filename));
+                            }
+
+                            break;
+                        }
+
+                        usleep(1000);
+                    }
                 }
             }
         }

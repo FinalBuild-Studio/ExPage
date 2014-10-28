@@ -10,7 +10,8 @@ class EhentaiLoader extends Page
     private $query_data = array("returntype" => 8, "CookieDate" => 1, "b" => "d", "submit" => "Login!");
     private $loginUrl = "https://forums.e-hentai.org/index.php?act=Login&CODE=01";
     private $cookie = "cookie/ehentai";
-
+    protected $home = "http://g.e-hentai.org/";
+    protected $header = array();
 
     public function __construct(array $setting)
     {
@@ -23,20 +24,29 @@ class EhentaiLoader extends Page
         $this->login();
     }
 
-    public function parse($url, $save, $pack = false)
+    public function parse($url, $save, $pack = "", $deleteAfterPack = false)
     {
-        $data = $this->getPage($url, $this->getEhentaiCookieFile());
-        return new ImageFactory($data, $this->getEhentaiCookieFile(), $save, array(), $pack);
+        $data = $this->getPage($url, $this->getCookieFile(), $this->header);
+        return new ImageFactory($data, $this->getCookieFile(), $save, $this->header, $pack, $deleteAfterPack);
     }
 
-    protected function getUserName()
+    public function parseHome($from, $pages, $save, $pack = "", $deleteAfterPack = false)
     {
-        return $this->username;
+        $startPage = $from - 1;
+        $endPage = $startPage + $pages;
+        for ($i = $startPage; $i < $endPage; $i++) { 
+            $content = $this->getPage($this->home . ($i > 0 ? ("?page=" . $i) : ""), $this->getCookieFile(), $this->header);
+            \phpQuery::newDocument($content);
+            foreach (pq(".it5>a") as $value) {
+                $href = pq($value)->attr("href");
+                $this->parse($href, $save, $pack, $deleteAfterPack);
+            }
+        }
     }
 
-    protected function getPassWord()
+    public function getCookieFile()
     {
-        return $this->password;
+        return $this->getEhentaiCookieFile();
     }
 
     protected function getEhentaiCookieFile()

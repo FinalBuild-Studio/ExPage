@@ -6,7 +6,8 @@ class ExhentaiLoader extends EhentaiLoader
 {
     
     private $cookie = "cookie/exhantai";
-    private $header = array("Referer: http://exhentai.org", "Host: exhentai.org");
+    protected $header = array("Referer: http://exhentai.org", "Host: exhentai.org");
+    protected $home = "http://exhentai.org/";
 
     public function __construct(array $setting)
     {
@@ -14,10 +15,9 @@ class ExhentaiLoader extends EhentaiLoader
         $this->login();
     }
 
-    public function parse($url, $save, $pack = "")
+    public function getCookieFile()
     {
-        $data = $this->getPage($url, $this->getExhentaiCookieFile(), $this->header);
-        return new ImageFactory($data, $this->getExhentaiCookieFile(), $save, $this->header, $pack);
+        return $this->getExhentaiCookieFile();
     }
 
     protected function getExhentaiCookieFile()
