@@ -2,7 +2,7 @@ ExPage
 ======
 
 ##Usage
-There are two class ExPage\ExhentaiLoader is for exhentai, \ExPage\Ehentailoader is for ehentai
+There are two class ExPage\ExhentaiLoader is for exhentai, ExPage\Ehentailoader is for ehentai
 
 ```
 require_once "autoload.php";
