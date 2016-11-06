@@ -4,10 +4,10 @@ namespace ExPage;
 
 class ExhentaiLoader extends EhentaiLoader
 {
-    
-    private $cookie = "cookie/exhantai";
-    protected $header = array("Referer: http://exhentai.org", "Host: exhentai.org");
-    protected $home = "http://exhentai.org/";
+
+    private $cookie   = "exhantai";
+    protected $header = ["Referer: http://exhentai.org", "Host: exhentai.org"];
+    protected $home   = "http://exhentai.org/";
 
     public function __construct(array $setting)
     {
@@ -27,7 +27,7 @@ class ExhentaiLoader extends EhentaiLoader
 
     private function login()
     {
-        Curl::http("get", "http://exhentai.org", array(), $this->getExhentaiCookieFile(), $this->getEhentaiCookieFile(), array("Referer: http://exhentai.org", "Host: exhentai.org"));
+        Curl::http("get", "http://exhentai.org", [], $this->getExhentaiCookieFile(), $this->getEhentaiCookieFile(), array("Referer: http://exhentai.org", "Host: exhentai.org"));
     }
 }
 ?>
