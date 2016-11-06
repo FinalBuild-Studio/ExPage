@@ -7,7 +7,8 @@ use phpQuery;
 class EhentaiLoader extends Page
 {
 
-    public  $title     = [];
+    private $term      = [];
+    private $search    = "";
     private $username  = null;
     private $password  = null;
     private $queryData = ["returntype" => 8, "CookieDate" => 1, "b" => "d", "submit" => "Login!"];
@@ -43,7 +44,7 @@ class EhentaiLoader extends Page
         $startPage = $from - 1;
         $endPage   = $startPage + $pages;
         for ($i = $startPage; $i < $endPage; $i++) {
-            $content = $this->getPage($this->home . ($i > 0 ? ("?page={$i}") : ""), $this->getCookieFile(), $this->header);
+            $content = $this->getPage($this->home . ($i > 0 ? ("?page={$i}&f_search={$this->search}") : ""), $this->getCookieFile(), $this->header);
             phpQuery::newDocument($content);
             foreach (pq(".it5>a") as $title) {
                 $match = $this->isMatch(pq($title)->text());
@@ -57,14 +58,19 @@ class EhentaiLoader extends Page
         }
     }
 
+    public function search($search)
+    {
+        $this->search = $search;
+    }
+
     public function getCookieFile()
     {
         return $this->getEhentaiCookieFile();
     }
 
-    public function contain($text)
+    public function contain($term)
     {
-        $this->title[] = $text;
+        $this->term[] = $term;
     }
 
     protected function getEhentaiCookieFile()
@@ -74,8 +80,8 @@ class EhentaiLoader extends Page
 
     protected function isMatch($str)
     {
-        foreach ($this->title as $title) {
-            if (!is_bool(strpos($str, $title))) {
+        foreach ($this->term as $term) {
+            if (!is_bool(strpos($str, $term))) {
                 return true;
             }
         }
