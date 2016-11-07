@@ -1,6 +1,11 @@
 ExPage
 ======
 
+##Composer
+```
+composer require "capslock-studio/ex-page"
+```
+
 ##Usage
 There are two class ExPage\ExhentaiLoader is for exhentai, ExPage\Ehentailoader is for ehentai
 
