@@ -2,14 +2,14 @@ ExPage
 ======
 
 ##Composer
-```
+```sh
 composer require "capslock-studio/ex-page"
 ```
 
 ##Usage
 There are two class ExPage\ExhentaiLoader is for exhentai, ExPage\Ehentailoader is for ehentai
 
-```
+```php
 require_once "vendor/autoload.php";
 
 $config = ["username" => {YOUR_USER_NAME}, "password" => {YOUR_PASSWORD}];    
