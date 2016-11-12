@@ -3,7 +3,7 @@ ExPage
 
 ##Composer
 ```sh
-composer require "capslock-studio/ex-page"
+composer require "capslock-studio/ex-page" dev-master
 ```
 
 ##Usage
