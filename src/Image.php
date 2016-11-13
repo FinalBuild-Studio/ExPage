@@ -1,6 +1,6 @@
 <?php
 
-namespace ExPage;
+namespace CapsLockStudio\ExPage;
 
 use phpQuery;
 use ZipArchive;

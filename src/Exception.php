@@ -1,12 +1,12 @@
 <?php
 
-namespace ExPage;
+namespace CapsLockStudio\ExPage;
 
 /**
- * 
+ *
  */
 class Exception extends \Exception
 {
-    
+
 }
 ?>

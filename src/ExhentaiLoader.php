@@ -1,6 +1,6 @@
 <?php
 
-namespace ExPage;
+namespace CapsLockStudio\ExPage;
 
 class ExhentaiLoader extends EhentaiLoader
 {
